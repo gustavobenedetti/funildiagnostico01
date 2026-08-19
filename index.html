@@ -292,25 +292,27 @@ function showScreen(name) {
 
 function setProgress(frac) { document.getElementById('progressFill').style.width = (frac*100)+'%'; }
 
-// ── SEND TO SHEET — usa form+iframe igual ao BP Form ──
+// ── SEND TO SHEET — source como campo separado ──
 function sendToSheet(etapa) {
   try {
-    const payload = JSON.stringify({
-      ...formData,
-      etapa,
-      source: CONFIG.source,
-      versao: CONFIG.versao
-    });
+    const payload = { ...formData, etapa, versao: CONFIG.versao };
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = CONFIG.webhookUrl;
     form.target = 'hidden_iframe';
     form.style.display = 'none';
+    // Payload principal
     const input = document.createElement('input');
     input.type = 'hidden';
     input.name = 'payload';
-    input.value = payload;
+    input.value = JSON.stringify(payload);
     form.appendChild(input);
+    // Source como campo separado — lido diretamente pelo Apps Script
+    const sourceInput = document.createElement('input');
+    sourceInput.type = 'hidden';
+    sourceInput.name = 'source';
+    sourceInput.value = CONFIG.source;
+    form.appendChild(sourceInput);
     document.body.appendChild(form);
     form.submit();
     setTimeout(() => form.remove(), 3000);
