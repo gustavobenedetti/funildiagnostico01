@@ -239,7 +239,7 @@ html, body {
 
 <script>
 const CONFIG = {
-  webhookUrl: 'https://script.google.com/macros/s/AKfycbzNiGKO4uCu4GMzDM06Sg7yliMBvx4AdhC3gD1mFnUeEaimZJalfI2lRfaDkxgcBgnI/exec',
+  webhookUrl: 'https://script.google.com/macros/s/AKfycbxC0ojjDVePw-YHIbQgt0-_OyGAcaTJCNKIV1Sds_dUpduycBgAspzLi8HqFJsk5IY/exec',
   formAfter: 5,
   versao: 'Diagnóstico 01',
   source: 'diagnostico'
@@ -403,11 +403,36 @@ fFaturamento.addEventListener('input', function() {
   validateForm();
 });
 
-// Captura progressiva por campo
-fNome.addEventListener('blur', () => { if(fNome.value.trim().length>=2){formData.nome=fNome.value.trim();sendToSheet('nome');} });
-fContato.addEventListener('blur', () => { if(fContato.value.replace(/\D/g,'').length>=10){formData.nome=fNome.value.trim();formData.whatsapp=fContato.value.trim();sendToSheet('whatsapp');} });
-fFaturamento.addEventListener('blur', () => { if(fFaturamento.value.trim().length>=2){formData.faturamento=fFaturamento.value.trim();sendToSheet('faturamento');} });
-fArea.addEventListener('blur', () => { if(fArea.value.trim().length>=2){formData.area=fArea.value.trim();sendToSheet('area');} });
+// Captura progressiva por campo — só cria linha quando WhatsApp estiver preenchido
+fNome.addEventListener('blur', () => {
+  if (fNome.value.trim().length >= 2) {
+    formData.nome = fNome.value.trim();
+    // Não envia ainda — aguarda WhatsApp
+  }
+});
+
+fContato.addEventListener('blur', () => {
+  const digits = fContato.value.replace(/\D/g,'');
+  if (digits.length >= 10) {
+    formData.nome = fNome.value.trim();
+    formData.whatsapp = fContato.value.trim();
+    sendToSheet('whatsapp'); // Cria a linha
+  }
+});
+
+fFaturamento.addEventListener('blur', () => {
+  if (fFaturamento.value.trim().length >= 2 && formData.whatsapp) {
+    formData.faturamento = fFaturamento.value.trim();
+    sendToSheet('faturamento');
+  }
+});
+
+fArea.addEventListener('blur', () => {
+  if (fArea.value.trim().length >= 2 && formData.whatsapp) {
+    formData.area = fArea.value.trim();
+    sendToSheet('area');
+  }
+});
 
 formBtn.addEventListener('click', () => {
   formData.nome=fNome.value.trim(); formData.whatsapp=fContato.value.trim();
