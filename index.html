@@ -303,6 +303,7 @@ html, body {
     <div><label class="input-label">Seu nome</label><input class="input-field" id="fNome" type="text" placeholder="Como podemos te chamar?" autocomplete="off"></div>
     <div><label class="input-label">WhatsApp</label><input class="input-field" id="fContato" type="tel" placeholder="(00) 00000-0000" autocomplete="off"></div>
     <div><label class="input-label">Faturamento mensal aproximado</label><input class="input-field" id="fFaturamento" type="text" placeholder="Ex: R$ 50.000" autocomplete="off"></div>
+    <div><label class="input-label">Área de atuação</label><input class="input-field" id="fArea" type="text" placeholder="Ex: Advocacia, Tecnologia, Imobiliário..." autocomplete="off"></div>
     <button class="btn" id="formBtn" disabled>CONTINUAR DIAGNÓSTICO</button>
   </div>
 
@@ -408,14 +409,20 @@ function setProgress(frac) { document.getElementById('progressFill').style.width
 
 function sendToSheet(etapa) {
   try {
-    const form = document.createElement('form');
-    form.method='POST'; form.action=CONFIG.webhookUrl; form.target='hidden_iframe'; form.style.display='none';
-    const input = document.createElement('input');
-    input.type='hidden'; input.name='payload';
-    input.value=JSON.stringify({...formData, etapa, source: CONFIG.source, versao: CONFIG.versao});
-    form.appendChild(input); document.body.appendChild(form); form.submit();
-    setTimeout(()=>form.remove(),2000);
-  } catch(e) {}
+    const payload = JSON.stringify({...formData, etapa, source: CONFIG.source, versao: CONFIG.versao});
+    const url = CONFIG.webhookUrl + '?payload=' + encodeURIComponent(payload);
+    const img = new Image();
+    img.src = url;
+    // Also try fetch as backup
+    fetch(CONFIG.webhookUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'payload=' + encodeURIComponent(payload)
+    }).catch(()=>{});
+  } catch(e) {
+    console.log('Sheet error:', e);
+  }
 }
 
 /* ── INTRO ── */
@@ -511,12 +518,43 @@ qBack.addEventListener('click', () => {
 });
 
 /* ── FORM MID ── */
-const fNome=document.getElementById('fNome'), fContato=document.getElementById('fContato'), fFaturamento=document.getElementById('fFaturamento'), formBtn=document.getElementById('formBtn');
+const fNome=document.getElementById('fNome'), fContato=document.getElementById('fContato'), fFaturamento=document.getElementById('fFaturamento'), fArea=document.getElementById('fArea'), formBtn=document.getElementById('formBtn');
 
 function validateForm() {
-  formBtn.disabled = !(fNome.value.trim().length>=2 && fContato.value.replace(/\D/g,'').length>=10 && fFaturamento.value.trim().length>=2);
+  formBtn.disabled = !(fNome.value.trim().length>=2 && fContato.value.replace(/\D/g,'').length>=10 && fFaturamento.value.trim().length>=2 && fArea.value.trim().length>=2);
 }
-[fNome,fContato,fFaturamento].forEach(f=>f.addEventListener('input',validateForm));
+[fNome,fContato,fFaturamento,fArea].forEach(f=>f.addEventListener('input',validateForm));
+
+// Progressive capture on field completion
+fNome.addEventListener('blur', () => {
+  if (fNome.value.trim().length >= 2) {
+    formData.nome = fNome.value.trim();
+    sendToSheet('nome');
+  }
+});
+
+fContato.addEventListener('blur', () => {
+  const digits = fContato.value.replace(/\D/g,'');
+  if (digits.length >= 10) {
+    formData.nome = fNome.value.trim();
+    formData.whatsapp = fContato.value.trim();
+    sendToSheet('whatsapp');
+  }
+});
+
+fFaturamento.addEventListener('blur', () => {
+  if (fFaturamento.value.trim().length >= 2) {
+    formData.faturamento = fFaturamento.value.trim();
+    sendToSheet('faturamento');
+  }
+});
+
+fArea.addEventListener('blur', () => {
+  if (fArea.value.trim().length >= 2) {
+    formData.area = fArea.value.trim();
+    sendToSheet('area');
+  }
+});
 
 fContato.addEventListener('input', function() {
   let v = this.value.replace(/\D/g,'');
@@ -536,8 +574,10 @@ fFaturamento.addEventListener('input', function() {
 });
 
 formBtn.addEventListener('click', () => {
-  formData = { nome:fNome.value.trim(), whatsapp:fContato.value.trim(), faturamento:fFaturamento.value.trim() };
-  sendToSheet('formulario');
+  formData.nome = fNome.value.trim();
+  formData.whatsapp = fContato.value.trim();
+  formData.faturamento = fFaturamento.value.trim();
+  formData.area = fArea.value.trim();
   currentQ = CONFIG.formAfter;
   renderQuestion(true);
   showScreen('question');
@@ -591,6 +631,17 @@ function computeResult() {
       id.innerHTML=`Intervalo estimado de receita que seu comercial deixa de capturar no estágio <strong>${stage.name}</strong>.`;
     }
   }
+
+  // Calcular custo de inércia para o payload
+  let inerciaTexto = '';
+  if (stage.pctMin > 0 && fat > 0) {
+    inerciaTexto = `${fmtBRL(Math.round(fat*stage.pctMin))} – ${fmtBRL(Math.round(fat*stage.pctMax))}/mês`;
+  } else if (stage.pctMin > 0) {
+    inerciaTexto = `${Math.round(stage.pctMin*100)}%–${Math.round(stage.pctMax*100)}% do faturamento/mês`;
+  }
+
+  formData.estagio = stage.name;
+  formData.inercia = inerciaTexto;
 
   sendToSheet('concluido');
   showScreen('result');
