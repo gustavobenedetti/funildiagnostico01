@@ -411,15 +411,8 @@ function sendToSheet(etapa) {
   try {
     const payload = JSON.stringify({...formData, etapa, source: CONFIG.source, versao: CONFIG.versao});
     const url = CONFIG.webhookUrl + '?payload=' + encodeURIComponent(payload);
-    const img = new Image();
-    img.src = url;
-    // Also try fetch as backup
-    fetch(CONFIG.webhookUrl, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: 'payload=' + encodeURIComponent(payload)
-    }).catch(()=>{});
+    // GET via image beacon — funciona sem CORS
+    new Image().src = url;
   } catch(e) {
     console.log('Sheet error:', e);
   }
