@@ -41,7 +41,6 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ===================== BG ===================== */
 .bg-canvas { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
 .bg-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: orb-float 14s ease-in-out infinite; }
 .bg-orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(59,130,246,0.2), transparent 70%); top: -15%; left: -10%; transition: background 1.5s ease; }
@@ -50,14 +49,11 @@ html, body {
 .bg-grid { position: fixed; inset: 0; z-index: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 40px 40px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%); -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%); }
 .bg-grid-fine { position: fixed; inset: 0; z-index: 0; background-image: linear-gradient(rgba(59,130,246,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.025) 1px, transparent 1px); background-size: 120px 120px; mask-image: radial-gradient(ellipse 60% 60% at 50% 40%, black 10%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 40%, black 10%, transparent 80%); }
 .bg-horizon { position: fixed; bottom: 30%; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(59,130,246,0.08), transparent); z-index: 0; }
-
 .particle { position: fixed; width: 2px; height: 2px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 0; opacity: 0; animation: particle-drift 8s ease-in-out infinite; }
 @keyframes particle-drift { 0%{opacity:0;transform:translateY(0) scale(1)} 20%{opacity:0.4} 80%{opacity:0.2} 100%{opacity:0;transform:translateY(-200px) scale(0.5)} }
 
-/* ===================== LAYOUT ===================== */
 .container { min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px 40px; position: relative; z-index: 1; width: 100%; }
 
-/* ===================== PROGRESS ===================== */
 .progress-wrapper { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,6,10,0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 .progress-bar { height: 3px; background: var(--border); width: 100%; overflow: hidden; }
 .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-light), #818CF8); width: 0%; transition: width 0.6s cubic-bezier(0.22,1,0.36,1); position: relative; }
@@ -68,98 +64,20 @@ html, body {
 .progress-step { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
 .progress-counter { font-size: 10px; font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
 
-/* ===================== SCREENS — iOS-smooth ===================== */
-.screen {
-  position: absolute;
-  width: 100%;
-  max-width: 520px;
-  padding: 0 20px;
-  opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.38s cubic-bezier(0.4,0,0.2,1), transform 0.38s cubic-bezier(0.4,0,0.2,1);
-  pointer-events: none;
-  text-align: center;
-  box-sizing: border-box;
-  will-change: opacity, transform;
-}
-.screen.active {
-  opacity: 1;
-  transform: translateX(0);
-  pointer-events: all;
-}
-.screen.exit-left {
-  opacity: 0;
-  transform: translateX(-40px);
-}
+.screen { position: absolute; width: 100%; max-width: 520px; padding: 0 20px; opacity: 0; transform: translateX(40px); transition: opacity 0.38s cubic-bezier(0.4,0,0.2,1), transform 0.38s cubic-bezier(0.4,0,0.2,1); pointer-events: none; text-align: center; box-sizing: border-box; will-change: opacity, transform; }
+.screen.active { opacity: 1; transform: translateX(0); pointer-events: all; }
+.screen.exit-left { opacity: 0; transform: translateX(-40px); }
 
-/* ===================== OPTIONS — instant feel ===================== */
-.q-option {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px 18px;
-  cursor: pointer;
-  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 13px;
-  color: var(--text);
-  line-height: 1.5;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  position: relative;
-  overflow: hidden;
-  -webkit-touch-callout: none;
-  touch-action: manipulation;
-}
-.q-option::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--accent-glow), transparent);
-  opacity: 0;
-  transition: opacity 0.18s ease;
-}
+.q-option { background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px 18px; cursor: pointer; transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease; display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text); line-height: 1.5; user-select: none; -webkit-tap-highlight-color: transparent; position: relative; overflow: hidden; -webkit-touch-callout: none; touch-action: manipulation; }
+.q-option::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--accent-glow), transparent); opacity: 0; transition: opacity 0.18s ease; }
 .q-option:active { transform: scale(0.975); }
-.q-option.selected {
-  border-color: var(--accent);
-  background: var(--surface-hover);
-  box-shadow: 0 0 0 3px var(--accent-glow);
-  color: var(--white);
-}
+.q-option.selected { border-color: var(--accent); background: var(--surface-hover); box-shadow: 0 0 0 3px var(--accent-glow); color: var(--white); }
 .q-option.selected::before { opacity: 1; }
-.q-option-letter {
-  width: 26px; height: 26px; border-radius: 50%;
-  border: 1.5px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; font-size: 10px; font-weight: 700; color: var(--muted);
-  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
-  position: relative; z-index: 1;
-}
-.q-option.selected .q-option-letter {
-  border-color: var(--accent); color: var(--white); background: rgba(59,130,246,0.15);
-}
+.q-option-letter { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 10px; font-weight: 700; color: var(--muted); transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease; position: relative; z-index: 1; }
+.q-option.selected .q-option-letter { border-color: var(--accent); color: var(--white); background: rgba(59,130,246,0.15); }
 .q-option-text { position: relative; z-index: 1; }
 
-/* ===================== QUESTION CONTENT TRANSITION ===================== */
-.q-inner {
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  will-change: opacity, transform;
-}
-.q-inner.fade-out {
-  opacity: 0;
-  transform: translateY(-8px);
-}
-
-/* ===================== RIPPLE ===================== */
-.ripple {
-  position: absolute; border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  transform: scale(0);
-  animation: ripple-go 0.5s linear;
-  pointer-events: none;
-}
+.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.15); transform: scale(0); animation: ripple-go 0.5s linear; pointer-events: none; }
 @keyframes ripple-go { to { transform: scale(4); opacity: 0; } }
 
 .intro-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: var(--accent-soft); border: 1px solid rgba(59,130,246,0.15); border-radius: 100px; font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 24px; }
@@ -168,13 +86,11 @@ html, body {
 .screen-title { font-size: 28px; font-weight: 800; line-height: 1.2; color: var(--white); margin-bottom: 12px; letter-spacing: -0.03em; }
 .screen-title .red { color: var(--red); }
 .screen-sub { font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--text); margin-bottom: 28px; max-width: 420px; margin-left: auto; margin-right: auto; }
-
 .stages-row { display: flex; justify-content: center; gap: 6px; margin-bottom: 28px; }
 .stage-pip { flex: 1; max-width: 80px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .stage-pip-bar { width: 100%; height: 4px; border-radius: 2px; background: var(--border); }
 .stage-pip-label { font-size: 9px; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
 
-/* ===================== BUTTONS ===================== */
 .btn { width: 100%; max-width: 320px; padding: 16px 28px; background: linear-gradient(135deg, var(--green), var(--green-light)); color: #fff; border: none; border-radius: var(--radius); font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s ease; position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; box-shadow: 0 4px 15px var(--green-glow); margin: 0 auto; display: block; }
 .btn::before { content: ''; position: absolute; inset: -2px; border-radius: 16px; background: linear-gradient(135deg, var(--green), var(--green-light), #00F07C, var(--green-light), var(--green)); background-size: 300% 300%; animation: border-glow 4s ease-in-out infinite; z-index: -1; opacity: 0.5; filter: blur(8px); }
 @keyframes border-glow { 0%,100%{background-position:0% 50%;opacity:0.3} 50%{background-position:100% 50%;opacity:0.6} }
@@ -184,26 +100,22 @@ html, body {
 .btn:active { transform: scale(0.96); }
 .btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
 .btn:disabled::before { animation: none; }
-
 .btn-back { background: transparent; color: var(--text); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px 20px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.25s; -webkit-tap-highlight-color: transparent; }
 .btn-back:hover { border-color: var(--muted); color: var(--white); }
 .btn-row { display: flex; gap: 10px; margin-top: 24px; justify-content: center; }
 
-/* ===================== QUESTIONS ===================== */
 .q-axis { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
 .q-counter { font-size: 11px; color: var(--muted); margin-bottom: 12px; letter-spacing: 0.06em; }
 .q-text { font-size: 20px; font-weight: 700; color: var(--white); line-height: 1.3; margin-bottom: 24px; letter-spacing: -0.02em; }
 .q-options { display: flex; flex-direction: column; gap: 10px; text-align: left; }
 .q-nav { display: flex; justify-content: center; margin-top: 20px; }
 
-/* ===================== FORM MID ===================== */
 .form-mid-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
 .input-label { display: block; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; text-align: left; }
 .input-field { width: 100%; padding: 16px 20px; background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--radius); color: var(--white); font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 400; outline: none; transition: all 0.3s; -webkit-appearance: none; margin-bottom: 14px; }
 .input-field::placeholder { color: var(--muted); }
 .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); background: var(--surface-hover); }
 
-/* ===================== CALCULATING ===================== */
 .calc-wrap { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 40px 0; }
 .calc-spinner { width: 48px; height: 48px; border: 2.5px solid var(--border); border-top-color: var(--accent-light); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 24px; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -212,7 +124,6 @@ html, body {
 .calc-step { font-size: 12px; color: var(--muted); opacity: 0; transform: translateY(8px); transition: all 0.4s ease; }
 .calc-step.show { opacity: 1; transform: translateY(0); }
 
-/* ===================== RESULT ===================== */
 .res-greeting { font-size: 14px; color: var(--text); margin-bottom: 14px; }
 .res-track { display: flex; gap: 5px; justify-content: center; margin-bottom: 24px; }
 .res-seg { flex: 1; max-width: 60px; height: 5px; border-radius: 3px; background: var(--border); transition: background 0.5s ease; }
@@ -220,13 +131,11 @@ html, body {
 .res-stage-name { font-size: 36px; font-weight: 900; color: var(--white); letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 6px; }
 .res-score { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
 .res-score strong { color: var(--text); }
-
 .res-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; margin-bottom: 16px; position: relative; overflow: hidden; text-align: left; }
 .res-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--res-clr, var(--accent)); }
 .res-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 11px; border-radius: 20px; margin-bottom: 14px; border: 1px solid; }
 .res-card-text { font-size: 13px; color: var(--text); line-height: 1.7; }
 .res-card-text strong { color: var(--white); }
-
 .res-inercia { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; margin-bottom: 24px; position: relative; overflow: hidden; text-align: center; }
 .res-inercia::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--res-clr, var(--accent)); }
 .res-inercia-label { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
@@ -234,7 +143,6 @@ html, body {
 .res-inercia-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
 .res-inercia-desc strong { color: var(--text); }
 
-/* ===================== RESPONSIVE ===================== */
 @media (max-height: 600px) { .container { padding-top: 56px; } .q-text { font-size: 17px; margin-bottom: 18px; } .q-options { gap: 8px; } .q-option { padding: 11px 14px; font-size: 12px; } }
 @media (max-width: 360px) { .screen-title { font-size: 20px; } .q-text { font-size: 16px; } .q-option { padding: 11px 14px; font-size: 12px; } .res-stage-name { font-size: 28px; } .res-inercia-value { font-size: 22px; } }
 @media (max-width: 480px) { .screen-title { font-size: 24px; } .container { padding: 56px 16px 30px; } .progress-info { padding: 8px 16px; } }
@@ -242,25 +150,19 @@ html, body {
 @media (hover: none) { .q-option:hover { transform: none; } .btn:hover { transform: none; box-shadow: 0 4px 15px var(--green-glow); } }
 
 .brand-footer { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 0.12em; opacity: 0.4; z-index: 10; text-transform: uppercase; }
-
-/* Confetti */
-@keyframes word-in { to { opacity: 1; filter: blur(0); } }
 </style>
 </head>
 <body>
 
-<iframe name="hidden_iframe" style="display:none"></iframe>
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none"></iframe>
 
 <div class="bg-canvas"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div></div>
-<div class="bg-grid"></div>
-<div class="bg-grid-fine"></div>
-<div class="bg-horizon"></div>
+<div class="bg-grid"></div><div class="bg-grid-fine"></div><div class="bg-horizon"></div>
 <div class="particle" style="left:10%;top:80%;animation-delay:0s"></div>
 <div class="particle" style="left:25%;top:70%;animation-delay:2s"></div>
 <div class="particle" style="left:50%;top:90%;animation-delay:4s"></div>
 <div class="particle" style="left:75%;top:75%;animation-delay:1s"></div>
 <div class="particle" style="left:90%;top:85%;animation-delay:3s"></div>
-<div class="particle" style="left:40%;top:95%;animation-delay:5s"></div>
 
 <div class="progress-wrapper">
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -271,11 +173,9 @@ html, body {
 </div>
 
 <div class="container">
-
-  <!-- INTRO -->
   <div class="screen active" id="screen-intro">
     <div class="intro-badge">Engenharia Comercial</div>
-    <h1 class="screen-title" id="introTitle">EM QUE ESTÁGIO ESTÁ O SEU <span class="red">COMERCIAL</span>?</h1>
+    <h1 class="screen-title">EM QUE ESTÁGIO ESTÁ O SEU <span class="red">COMERCIAL</span>?</h1>
     <p class="screen-sub">9 perguntas. Ao final, você descobre em qual dos 4 estágios sua empresa está — e quanto isso está custando por mês.</p>
     <div class="stages-row">
       <div class="stage-pip"><div class="stage-pip-bar"></div><div class="stage-pip-label">Canais</div></div>
@@ -286,7 +186,6 @@ html, body {
     <button class="btn" id="startBtn">COMEÇAR DIAGNÓSTICO</button>
   </div>
 
-  <!-- QUESTION -->
   <div class="screen" id="screen-question">
     <div class="q-axis" id="qAxis"></div>
     <div class="q-counter" id="qCounter"></div>
@@ -295,7 +194,6 @@ html, body {
     <div class="q-nav"><button class="btn-back" id="qBack" style="visibility:hidden">← Voltar</button></div>
   </div>
 
-  <!-- FORM MID -->
   <div class="screen" id="screen-form">
     <div class="form-mid-badge">QUASE LÁ</div>
     <h2 class="screen-title" style="font-size:22px;margin-bottom:8px;">Precisamos de algumas informações para personalizar seu resultado.</h2>
@@ -307,7 +205,6 @@ html, body {
     <button class="btn" id="formBtn" disabled>CONTINUAR DIAGNÓSTICO</button>
   </div>
 
-  <!-- CALCULATING -->
   <div class="screen" id="screen-calc">
     <div class="calc-wrap">
       <div class="calc-spinner"></div>
@@ -320,7 +217,6 @@ html, body {
     </div>
   </div>
 
-  <!-- RESULT -->
   <div class="screen" id="screen-result">
     <div class="res-greeting" id="resGreeting"></div>
     <div class="res-track" id="resTrack"></div>
@@ -337,13 +233,11 @@ html, body {
     </div>
     <button class="btn" onclick="window.open('https://instagram.com/gustavoobenedetti','_blank')">CONCLUIR</button>
   </div>
-
 </div>
 
 <div class="brand-footer">Branches Performance</div>
 
 <script>
-/* ════════ CONFIG ════════ */
 const CONFIG = {
   webhookUrl: 'https://script.google.com/macros/s/AKfycbzNiGKO4uCu4GMzDM06Sg7yliMBvx4AdhC3gD1mFnUeEaimZJalfI2lRfaDkxgcBgnI/exec',
   formAfter: 5,
@@ -351,7 +245,6 @@ const CONFIG = {
   source: 'diagnostico'
 };
 
-/* ════════ QUESTIONS ════════ */
 const QUESTIONS = [
   { axis:'Canais', text:'Seus canais de aquisição geram um volume adequado de oportunidades?', options:['Não tenho canais definidos — clientes vêm por indicação ou acaso','Tenho algum canal, mas o volume é irregular e insuficiente','Gero oportunidades com certa regularidade, mas poderia ser mais consistente','Tenho canais ativos que geram volume previsível todo mês'] },
   { axis:'Canais', text:'As oportunidades geradas têm real potencial financeiro e interesse de compra?', options:['A maioria não tem perfil — perco tempo com quem não vai comprar','A qualidade é inconsistente — mistura bons e ruins','Boa parte tem perfil, mas ainda entram contatos fora do ideal','A maioria dos contatos tem perfil e intenção de compra clara'] },
@@ -371,42 +264,35 @@ const STAGES = [
   { min:30, max:36, name:'Previsível', idx:4, clr:'#00B85C', tag:'✓ Elite', text:'Seu comercial opera como sistema, não como esforço individual. <strong>A próxima fronteira não é mais estruturar — é escalar sem perder qualidade:</strong> arquitetura de time, unit economics e capacity planning.', pctMin:0, pctMax:0 }
 ];
 
-/* ════════ STATE ════════ */
 let currentQ = 0, answers = new Array(9).fill(null), formData = {};
 let _activeScreen = null;
 const screens = { intro:document.getElementById('screen-intro'), question:document.getElementById('screen-question'), form:document.getElementById('screen-form'), calc:document.getElementById('screen-calc'), result:document.getElementById('screen-result') };
+Object.values(screens).forEach(s => s.style.display = 'block');
 
-// Show all screens (use opacity/transform only — no display:none)
-Object.values(screens).forEach(s => {
-  s.style.display = 'block';
-});
-
-function showScreen(name, direction = 'forward') {
-  const next = screens[name];
-  if (_activeScreen) {
-    const cur = _activeScreen;
-    cur.classList.add(direction === 'forward' ? 'exit-left' : 'exit-right');
-    setTimeout(() => { cur.classList.remove('active','exit-left','exit-right'); }, 380);
-  }
-  next.style.transform = direction === 'forward' ? 'translateX(40px)' : 'translateX(-40px)';
-  next.style.opacity = '0';
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      next.classList.add('active');
-      next.style.transform = '';
-      next.style.opacity = '';
-    });
-  });
-  _activeScreen = next;
-}
-
-// Add exit-right CSS
 const styleEl = document.createElement('style');
 styleEl.textContent = '.screen.exit-right{opacity:0;transform:translateX(40px);}';
 document.head.appendChild(styleEl);
 
+function showScreen(name) {
+  const next = screens[name];
+  if (_activeScreen) {
+    const cur = _activeScreen;
+    cur.classList.add('exit-left');
+    setTimeout(() => cur.classList.remove('active','exit-left','exit-right'), 380);
+  }
+  next.style.transform = 'translateX(40px)';
+  next.style.opacity = '0';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    next.classList.add('active');
+    next.style.transform = '';
+    next.style.opacity = '';
+  }));
+  _activeScreen = next;
+}
+
 function setProgress(frac) { document.getElementById('progressFill').style.width = (frac*100)+'%'; }
 
+// ── SEND TO SHEET — usa form+iframe igual ao BP Form ──
 function sendToSheet(etapa) {
   try {
     const payload = JSON.stringify({
@@ -415,15 +301,22 @@ function sendToSheet(etapa) {
       source: CONFIG.source,
       versao: CONFIG.versao
     });
-    fetch(CONFIG.webhookUrl, {
-      method: 'POST',
-      mode: 'no-cors',
-      body: payload
-    });
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = CONFIG.webhookUrl;
+    form.target = 'hidden_iframe';
+    form.style.display = 'none';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payload';
+    input.value = payload;
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(() => form.remove(), 3000);
   } catch(e) {}
 }
 
-/* ── INTRO ── */
 _activeScreen = screens.intro;
 screens.intro.classList.add('active');
 document.getElementById('progressInfo').classList.add('hidden');
@@ -431,128 +324,65 @@ document.getElementById('progressInfo').classList.add('hidden');
 document.getElementById('startBtn').addEventListener('click', () => {
   currentQ = 0; answers = new Array(9).fill(null);
   document.getElementById('progressInfo').classList.remove('hidden');
-  renderQuestion();
-  showScreen('question');
-  setProgress(0);
+  renderQuestion(); showScreen('question'); setProgress(0);
 });
 
-/* ── QUESTIONS ── */
 const qAxis=document.getElementById('qAxis'), qCounter=document.getElementById('qCounter'), qText=document.getElementById('qText'), qOptions=document.getElementById('qOptions'), qBack=document.getElementById('qBack');
 
-function renderQuestion(animate = false) {
+function renderQuestion(animate=false) {
   const q = QUESTIONS[currentQ], total = QUESTIONS.length + 1;
   const step = currentQ < CONFIG.formAfter ? currentQ : currentQ + 1;
   setProgress(step / total);
   document.getElementById('progressLabel').textContent = q.axis.toUpperCase();
   document.getElementById('progressCounter').textContent = `${currentQ+1}/${QUESTIONS.length}`;
-
-  const doRender = () => {
-    qAxis.textContent = q.axis.toUpperCase();
-    qCounter.textContent = `PERGUNTA ${currentQ+1} DE ${QUESTIONS.length}`;
-    qText.textContent = q.text;
-    qOptions.innerHTML = '';
-    const letters = ['A','B','C','D'];
-    q.options.forEach((opt, i) => {
-      const div = document.createElement('div');
-      div.className = 'q-option' + (answers[currentQ]===i+1?' selected':'');
-      div.innerHTML = `<span class="q-option-letter">${letters[i]}</span><span class="q-option-text">${opt}</span>`;
-      div.addEventListener('click', (e) => { addRipple(e, div); selectAnswer(i+1); });
-      qOptions.appendChild(div);
+  qAxis.textContent = q.axis.toUpperCase();
+  qCounter.textContent = `PERGUNTA ${currentQ+1} DE ${QUESTIONS.length}`;
+  qText.textContent = q.text;
+  qOptions.innerHTML = '';
+  ['A','B','C','D'].forEach((letter, i) => {
+    const div = document.createElement('div');
+    div.className = 'q-option' + (answers[currentQ]===i+1?' selected':'');
+    div.innerHTML = `<span class="q-option-letter">${letter}</span><span class="q-option-text">${q.options[i]}</span>`;
+    div.addEventListener('click', () => selectAnswer(i+1));
+    qOptions.appendChild(div);
+  });
+  qBack.style.visibility = currentQ===0?'hidden':'visible';
+  if (animate) {
+    qText.style.opacity='0'; qText.style.transform='translateY(12px)';
+    qOptions.style.opacity='0'; qOptions.style.transform='translateY(12px)';
+    requestAnimationFrame(() => {
+      qText.style.transition='opacity 0.3s ease,transform 0.3s ease';
+      qOptions.style.transition='opacity 0.3s ease,transform 0.3s ease';
+      requestAnimationFrame(() => { qText.style.opacity='1'; qText.style.transform=''; qOptions.style.opacity='1'; qOptions.style.transform=''; });
     });
-    qBack.style.visibility = currentQ===0?'hidden':'visible';
-
-    if (animate) {
-      qText.style.opacity='0'; qText.style.transform='translateY(12px)';
-      qOptions.style.opacity='0'; qOptions.style.transform='translateY(12px)';
-      requestAnimationFrame(() => {
-        qText.style.transition='opacity 0.3s ease,transform 0.3s ease';
-        qOptions.style.transition='opacity 0.3s ease,transform 0.3s ease';
-        requestAnimationFrame(() => {
-          qText.style.opacity='1'; qText.style.transform='';
-          qOptions.style.opacity='1'; qOptions.style.transform='';
-        });
-      });
-    }
-  };
-
-  doRender();
-}
-
-function addRipple(e, el) {
-  const r = document.createElement('span');
-  const d = Math.max(el.clientWidth, el.clientHeight);
-  const rect = el.getBoundingClientRect();
-  r.className = 'ripple';
-  r.style.cssText = `width:${d}px;height:${d}px;left:${(e.clientX||rect.left+rect.width/2)-rect.left-d/2}px;top:${(e.clientY||rect.top+rect.height/2)-rect.top-d/2}px`;
-  el.querySelector('.ripple')?.remove();
-  el.appendChild(r);
+  }
 }
 
 function selectAnswer(points) {
   answers[currentQ] = points;
   renderQuestion();
-
-  const advance = () => {
+  setTimeout(() => {
     if (currentQ === CONFIG.formAfter - 1) {
       showScreen('form');
       setProgress(CONFIG.formAfter / (QUESTIONS.length+1));
       document.getElementById('progressLabel').textContent = 'DADOS';
       document.getElementById('progressCounter').textContent = '';
     } else if (currentQ < QUESTIONS.length - 1) {
-      currentQ++;
-      renderQuestion(true);
+      currentQ++; renderQuestion(true);
     } else {
-      setProgress(1);
-      showCalc();
+      setProgress(1); showCalc();
     }
-  };
-
-  // Instant advance — just enough for visual feedback
-  setTimeout(advance, 90);
+  }, 90);
 }
 
-qBack.addEventListener('click', () => {
-  if (currentQ > 0) { currentQ--; renderQuestion(true); }
-});
+qBack.addEventListener('click', () => { if(currentQ>0){currentQ--;renderQuestion(true);} });
 
-/* ── FORM MID ── */
 const fNome=document.getElementById('fNome'), fContato=document.getElementById('fContato'), fFaturamento=document.getElementById('fFaturamento'), fArea=document.getElementById('fArea'), formBtn=document.getElementById('formBtn');
 
 function validateForm() {
   formBtn.disabled = !(fNome.value.trim().length>=2 && fContato.value.replace(/\D/g,'').length>=10 && fFaturamento.value.trim().length>=2 && fArea.value.trim().length>=2);
 }
-[fNome,fContato,fFaturamento,fArea].forEach(f=>f.addEventListener('input',validateForm));
-
-// Progressive capture on field completion
-fNome.addEventListener('blur', () => {
-  if (fNome.value.trim().length >= 2) {
-    formData.nome = fNome.value.trim();
-    sendToSheet('nome');
-  }
-});
-
-fContato.addEventListener('blur', () => {
-  const digits = fContato.value.replace(/\D/g,'');
-  if (digits.length >= 10) {
-    formData.nome = fNome.value.trim();
-    formData.whatsapp = fContato.value.trim();
-    sendToSheet('whatsapp');
-  }
-});
-
-fFaturamento.addEventListener('blur', () => {
-  if (fFaturamento.value.trim().length >= 2) {
-    formData.faturamento = fFaturamento.value.trim();
-    sendToSheet('faturamento');
-  }
-});
-
-fArea.addEventListener('blur', () => {
-  if (fArea.value.trim().length >= 2) {
-    formData.area = fArea.value.trim();
-    sendToSheet('area');
-  }
-});
+[fNome,fContato,fFaturamento,fArea].forEach(f => f.addEventListener('input', validateForm));
 
 fContato.addEventListener('input', function() {
   let v = this.value.replace(/\D/g,'');
@@ -571,17 +401,18 @@ fFaturamento.addEventListener('input', function() {
   validateForm();
 });
 
+// Captura progressiva por campo
+fNome.addEventListener('blur', () => { if(fNome.value.trim().length>=2){formData.nome=fNome.value.trim();sendToSheet('nome');} });
+fContato.addEventListener('blur', () => { if(fContato.value.replace(/\D/g,'').length>=10){formData.nome=fNome.value.trim();formData.whatsapp=fContato.value.trim();sendToSheet('whatsapp');} });
+fFaturamento.addEventListener('blur', () => { if(fFaturamento.value.trim().length>=2){formData.faturamento=fFaturamento.value.trim();sendToSheet('faturamento');} });
+fArea.addEventListener('blur', () => { if(fArea.value.trim().length>=2){formData.area=fArea.value.trim();sendToSheet('area');} });
+
 formBtn.addEventListener('click', () => {
-  formData.nome = fNome.value.trim();
-  formData.whatsapp = fContato.value.trim();
-  formData.faturamento = fFaturamento.value.trim();
-  formData.area = fArea.value.trim();
-  currentQ = CONFIG.formAfter;
-  renderQuestion(true);
-  showScreen('question');
+  formData.nome=fNome.value.trim(); formData.whatsapp=fContato.value.trim();
+  formData.faturamento=fFaturamento.value.trim(); formData.area=fArea.value.trim();
+  currentQ=CONFIG.formAfter; renderQuestion(true); showScreen('question');
 });
 
-/* ── CALCULATING ── */
 function showCalc() {
   showScreen('calc');
   setTimeout(()=>document.getElementById('cs1').classList.add('show'),400);
@@ -590,78 +421,62 @@ function showCalc() {
   setTimeout(computeResult, 2200);
 }
 
-/* ── RESULT ── */
-function parseFat(s){return parseInt(s.replace(/[^\d]/g,''),10)||0}
+function parseFat(s){return parseInt((s||'').replace(/[^\d]/g,''),10)||0}
 function fmtBRL(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0})}
 
 function computeResult() {
-  const total = answers.reduce((a,b)=>a+b,0);
+  const total = answers.reduce((a,b)=>a+(b||0),0);
   const stage = STAGES.find(s=>total>=s.min&&total<=s.max)||STAGES[0];
   const fat = parseFat(formData.faturamento);
 
-  document.getElementById('resGreeting').textContent = `Resultado de ${formData.nome}`;
+  document.getElementById('resGreeting').textContent = `Resultado de ${formData.nome||'você'}`;
   document.getElementById('resTitle').textContent = stage.name;
   document.getElementById('resScore').innerHTML = `Estágio ${stage.idx} de 4 &nbsp;·&nbsp; <strong>${total}/36 pontos</strong>`;
 
   const track = document.getElementById('resTrack');
   track.innerHTML = '';
-  for(let i=1;i<=4;i++){const s=document.createElement('div');s.className='res-seg'+(i<=stage.idx?' filled':'');track.appendChild(s)}
+  for(let i=1;i<=4;i++){const s=document.createElement('div');s.className='res-seg'+(i<=stage.idx?' filled':'');track.appendChild(s);}
 
-  const card = document.getElementById('resCard');
+  const card=document.getElementById('resCard');
   card.style.setProperty('--res-clr',stage.clr);
-  const tag = document.getElementById('resTag');
+  const tag=document.getElementById('resTag');
   tag.textContent=stage.tag; tag.style.color=stage.clr; tag.style.borderColor=stage.clr;
   document.getElementById('resText').innerHTML=stage.text;
 
   const inercia=document.getElementById('resInercia'), iv=document.getElementById('resInerciaValue'), id=document.getElementById('resInerciaDesc');
   inercia.style.setProperty('--res-clr',stage.clr);
 
-  if(stage.pctMin===0){inercia.style.display='none'}
-  else{
+  let inerciaTexto = '';
+  if(stage.pctMin===0){ inercia.style.display='none'; }
+  else {
     inercia.style.display='';
     const pMin=Math.round(stage.pctMin*100), pMax=Math.round(stage.pctMax*100);
     if(fat>0){
-      iv.textContent=`${fmtBRL(Math.round(fat*stage.pctMin))} – ${fmtBRL(Math.round(fat*stage.pctMax))}/mês`;
-      iv.style.color=stage.clr;
-      id.innerHTML=`Equivale a <strong>${pMin}%–${pMax}%</strong> do seu faturamento. Baseado nos <strong>${formData.faturamento}</strong> informados. Esse é o valor que seu comercial deixa de capturar por estar no estágio <strong>${stage.name}</strong>.`;
+      const vMin=fmtBRL(Math.round(fat*stage.pctMin)), vMax=fmtBRL(Math.round(fat*stage.pctMax));
+      iv.textContent=`${vMin} – ${vMax}/mês`; iv.style.color=stage.clr;
+      id.innerHTML=`Equivale a <strong>${pMin}%–${pMax}%</strong> do seu faturamento. Esse é o valor que seu comercial deixa de capturar por estar no estágio <strong>${stage.name}</strong>.`;
+      inerciaTexto=`${vMin} – ${vMax}/mês`;
     } else {
       iv.textContent=`${pMin}%–${pMax}% do seu faturamento/mês`; iv.style.color=stage.clr;
       id.innerHTML=`Intervalo estimado de receita que seu comercial deixa de capturar no estágio <strong>${stage.name}</strong>.`;
+      inerciaTexto=`${pMin}%–${pMax}% do faturamento/mês`;
     }
-  }
-
-  // Calcular custo de inércia para o payload
-  let inerciaTexto = '';
-  if (stage.pctMin > 0 && fat > 0) {
-    inerciaTexto = `${fmtBRL(Math.round(fat*stage.pctMin))} – ${fmtBRL(Math.round(fat*stage.pctMax))}/mês`;
-  } else if (stage.pctMin > 0) {
-    inerciaTexto = `${Math.round(stage.pctMin*100)}%–${Math.round(stage.pctMax*100)}% do faturamento/mês`;
   }
 
   formData.estagio = stage.name;
   formData.inercia = inerciaTexto;
-
   sendToSheet('concluido');
+
   showScreen('result');
-
-  // BG shift to green
-  const orb = document.querySelector('.bg-orb-1');
+  const orb=document.querySelector('.bg-orb-1');
   if(orb) orb.style.background='radial-gradient(circle, rgba(16,185,129,0.25), transparent 70%)';
-
-  // Confetti
   setTimeout(launchConfetti, 500);
 }
 
 function launchConfetti(){
   const colors=['#3B82F6','#00B85C','#F59E0B','#EC4899','#8B5CF6','#fff'];
-  for(let i=0;i<50;i++){setTimeout(()=>{const e=document.createElement('div');e.style.cssText=`position:fixed;pointer-events:none;z-index:999;left:${Math.random()*100}vw;top:${Math.random()*40+10}vh;width:${Math.random()*8+4}px;height:${Math.random()*8+4}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};`;document.body.appendChild(e);e.animate([{opacity:1,transform:'translate(0,0) rotate(0deg)'},{opacity:0,transform:`translate(${(Math.random()-.5)*200}px,${Math.random()*300+100}px) rotate(${Math.random()*720}deg)`}],{duration:Math.random()*1500+1000,easing:'ease-out',fill:'forwards'}).onfinish=()=>e.remove()},i*25)}
+  for(let i=0;i<50;i++){setTimeout(()=>{const e=document.createElement('div');e.style.cssText=`position:fixed;pointer-events:none;z-index:999;left:${Math.random()*100}vw;top:${Math.random()*40+10}vh;width:${Math.random()*8+4}px;height:${Math.random()*8+4}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};`;document.body.appendChild(e);e.animate([{opacity:1,transform:'translate(0,0) rotate(0deg)'},{opacity:0,transform:`translate(${(Math.random()-.5)*200}px,${Math.random()*300+100}px) rotate(${Math.random()*720}deg)`}],{duration:Math.random()*1500+1000,easing:'ease-out',fill:'forwards'}).onfinish=()=>e.remove();},i*25);}
 }
-
-/* BG shift per step */
-const bgP=['rgba(59,130,246,0.2)','rgba(99,102,241,0.18)','rgba(139,92,246,0.18)','rgba(59,130,246,0.2)','rgba(99,102,241,0.2)','rgba(139,92,246,0.15)','rgba(16,185,129,0.12)','rgba(16,185,129,0.18)','rgba(16,185,129,0.22)'];
-const origRender = renderQuestion;
-const _renderQ = renderQuestion;
 </script>
-
 </body>
 </html>
