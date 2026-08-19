@@ -409,13 +409,18 @@ function setProgress(frac) { document.getElementById('progressFill').style.width
 
 function sendToSheet(etapa) {
   try {
-    const payload = JSON.stringify({...formData, etapa, source: CONFIG.source, versao: CONFIG.versao});
-    const url = CONFIG.webhookUrl + '?payload=' + encodeURIComponent(payload);
-    // GET via image beacon — funciona sem CORS
-    new Image().src = url;
-  } catch(e) {
-    console.log('Sheet error:', e);
-  }
+    const payload = JSON.stringify({
+      ...formData,
+      etapa,
+      source: CONFIG.source,
+      versao: CONFIG.versao
+    });
+    fetch(CONFIG.webhookUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: payload
+    });
+  } catch(e) {}
 }
 
 /* ── INTRO ── */
